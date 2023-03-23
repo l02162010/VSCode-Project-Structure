@@ -20,12 +20,22 @@
   "main": "./extension.js",
   "contributes": {
     "commands": [
-        {
-            "command": "extension.generateProjectStructure",
-            "title": "Generate Project Structure"
+      {
+        "command": "extension.generateProjectStructure",
+        "title": "Generate Project Structure"
+      }
+    ],
+    "configuration": {
+      "title": "VSCode Project Structure",
+      "properties": {
+        "vscodeProjectStructure.useGitIgnore": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use .gitignore file for ignoring files and folders when generating project structure."
         }
-    ]
-  },
+      }
+    }
+  },  
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",

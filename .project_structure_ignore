@@ -8,8 +8,10 @@ README.md
 .git
 .eslintrc.json
 .vscodeignore
+.DS_Store
 LICENSE.txt
 package-lock.json
 project_structure.txt
 vsc-extension-quickstart.md
-vscode-project-structure-0.0.1.vsix
+vscode-project-structure-0.0.2.vsix
+images

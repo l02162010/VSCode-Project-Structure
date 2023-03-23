@@ -14,24 +14,21 @@ VSCode Project Structure is a Visual Studio Code extension that allows you to ge
 - Enter the output file name and location in the input prompt.
 - Wait for the extension to finish generating the file.
 - use .project_structure_ignore file to ignore folder or file
+- integrate the patterns defined in your .gitignore file
 
-For example
+## Examples
+
+.project_structure_ignore file
 
 ```
+bash
 node_modules
 dist
-test
-CHANGELOG.md
-README.md
-LICENSE.txt
-package-lock.json
-project_structure.txt
-.vscode
-.project_structure_ignore
-.git
-.eslintrc.json
-.vscodeignore
+*.log
 ```
+This will ignore the node_modules and dist directories, and any files with the .log extension.
+
+To enable the useGitIgnore setting, open your Visual Studio Code settings (File > Preferences > Settings), and search for "Project Structure". Enable the "Use Git Ignore" checkbox to automatically integrate the patterns defined in your .gitignore file.
 
 ## Requirements
 Visual Studio Code version 1.76.0 or higher.
@@ -48,3 +45,4 @@ Contributions are always welcome! If you have any ideas or suggestions for new f
 
 ## License
 This extension is licensed under the MIT License.
+
