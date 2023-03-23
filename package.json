@@ -2,7 +2,7 @@
   "name": "vscode-project-structure",
   "displayName": "vscode-project-structure",
   "description": "Print the project folder structure, file name and file contents into a txt file",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "icon": "images/logo.jpeg",
   "engines": {
     "vscode": "^1.76.0"
