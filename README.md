@@ -1,4 +1,5 @@
 # VSCode Project Structure
+
 ## Description
 VSCode Project Structure is a Visual Studio Code extension that allows you to generate a txt file with the folder structure, file name, and file contents of your project.
 
@@ -6,13 +7,35 @@ VSCode Project Structure is a Visual Studio Code extension that allows you to ge
 - Generates a txt file with the folder structure, file name, and file contents of your project.
 - Customize the output file name and location.
 - Exclude files and folders from the output.
+
 ## Usage
 - Open the command palette (Ctrl+Shift+P on Windows/Linux, Cmd+Shift+P on macOS).
 - Type "Generate Project Structure" and select the corresponding command.
 - Enter the output file name and location in the input prompt.
 - Wait for the extension to finish generating the file.
+- use .project_structure_ignore file to ignore folder or file
+
+For example
+
+```
+node_modules
+dist
+test
+CHANGELOG.md
+README.md
+LICENSE.txt
+package-lock.json
+project_structure.txt
+.vscode
+.project_structure_ignore
+.git
+.eslintrc.json
+.vscodeignore
+```
+
 ## Requirements
 Visual Studio Code version 1.76.0 or higher.
+
 ## Extension Settings
 This extension does not provide any settings at the moment.
 
