@@ -1,3 +1,15 @@
 node_modules
 dist
 .vscode
+test
+.project_structure_ignore
+CHANGELOG.md
+README.md
+.git
+.eslintrc.json
+.vscodeignore
+LICENSE.txt
+package-lock.json
+project_structure.txt
+vsc-extension-quickstart.md
+vscode-project-structure-0.0.1.vsix
