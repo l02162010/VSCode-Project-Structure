@@ -9,6 +9,10 @@
   "categories": [
     "Other"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/l02162010/VSCode-Project-Structure"
+  },
   "activationEvents": [],
   "main": "./extension.js",
   "contributes": {
