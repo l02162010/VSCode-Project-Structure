@@ -68,13 +68,21 @@ function generateProjectStructure(applyFilter = false) {
   let outputPath = ''
 
   // Check if the filter option is enabled and if the filter file exists
-  if (applyFilter && fs.existsSync(filterFilePath)) {
+  if (applyFilter) {
+    // if filterFilePath doesn't exist, create it
+    if (!fs.existsSync(filterFilePath)) {
+      fs.writeFileSync(filterFilePath, '')
+    }
     // set the output path to project_structure_filtered.txt
     outputPath = path.join(outputFolderPath, 'project_structure_filtered.txt')
     // Extract list of patterns for files to filter
     const ignoreFileContent = fs.readFileSync(filterFilePath, 'utf-8')
     filterFiles = ignoreFileContent.split('\n').filter(line => line.trim() !== '')
   } else {
+    // if ignoreFilePath doesn't exist, create it
+    if (!fs.existsSync(ignoreFilePath)) {
+      fs.writeFileSync(ignoreFilePath, '')
+    }
     // iset the output path to project_structure.txt
     outputPath = path.join(outputFolderPath, 'project_structure.txt')
   }
@@ -110,16 +118,16 @@ function generateProjectStructure(applyFilter = false) {
   )
 }
 
-function getFolderStructure(dir, ignoreFiles, level) {
+function getFolderStructure(rootPath, ignoreFiles, level) {
   let output = ''
 
-  if (fs.existsSync(dir)) {
-    const files = fs.readdirSync(dir)
+  if (fs.existsSync(rootPath)) {
+    const files = fs.readdirSync(rootPath)
     files.forEach((file, index) => {
-      const fullPath = path.join(dir, file)
-      const relativePath = path.relative(process.cwd(), fullPath)
+      const fullPath = path.join(rootPath, file)
+      const relativePath = path.relative(rootPath, fullPath)
 
-      if (shouldIgnore(relativePath, ignoreFiles)) {
+      if (matchesPattern(relativePath, ignoreFiles)) {
         return
       }
 
@@ -139,7 +147,7 @@ function getFolderStructure(dir, ignoreFiles, level) {
   return output
 }
 
-function getFileContents(dir, ignoreFiles, filterFiles, applyFilter) {
+function getFileContents(rootPath, ignoreFiles, filterFiles, applyFilter = false) {
   let output = ''
 
   const readDirectory = directory => {
@@ -148,43 +156,35 @@ function getFileContents(dir, ignoreFiles, filterFiles, applyFilter) {
 
     files.forEach(file => {
       const fullPath = path.join(directory, file)
-      const relativePath = path.relative(process.cwd(), fullPath)
+      const relativePath = path.relative(rootPath, fullPath)
 
-      // Ignore files that match the ignore patterns
-      if (shouldIgnore(relativePath, ignoreFiles)) {
+      if (matchesPattern(relativePath, ignoreFiles)) {
         return
       }
 
-      // If the file matches the filter patterns, add it to the results array
-      if (!applyFilter || shouldInclude(relativePath, filterFiles)) {
-        if (fs.lstatSync(fullPath).isDirectory()) {
-          results = results.concat(readDirectory(fullPath))
-        } else {
-          results.push(fullPath)
-        }
+      if (fs.lstatSync(fullPath).isDirectory()) {
+        results = results.concat(readDirectory(fullPath))
+      } else {
+        results.push(fullPath)
       }
     })
 
     return results
   }
 
-  const filePaths = readDirectory(dir)
+  const filePaths = readDirectory(rootPath)
 
   filePaths.forEach(filePath => {
-    const relativePath = path.relative(dir, filePath)
+    // If apply filter is on, ignore files that don't match the filter patterns
+    const relativePath = path.relative(rootPath, filePath)
+    if (applyFilter && !matchesPattern(filePath, filterFiles)) {
+      return
+    }
     output += `\n--- File: ${relativePath} ---\n`
     output += fs.readFileSync(filePath, 'utf-8') + '\n'
   })
 
   return output
-}
-
-function shouldIgnore(relativePath, ignoreFiles) {
-  return matchesPattern(relativePath, ignoreFiles)
-}
-
-function shouldInclude(relativePath, filterFiles) {
-  return matchesPattern(relativePath, filterFiles)
 }
 
 function matchesPattern(relativePath, listOfPatterns) {
