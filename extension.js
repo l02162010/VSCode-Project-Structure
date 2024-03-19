@@ -77,7 +77,7 @@ function generateProjectStructure(applyFilter = false) {
     outputPath = path.join(outputFolderPath, 'project_structure_filtered.txt')
     // Extract list of patterns for files to filter
     const ignoreFileContent = fs.readFileSync(filterFilePath, 'utf-8')
-    filterFiles = ignoreFileContent.split('\n').filter(line => line.trim() !== '')
+    filterFiles = ignoreFileContent.split('\n').filter(line => line.trim() !== '').map(line => line.trim())
   } else {
     // if ignoreFilePath doesn't exist, create it
     if (!fs.existsSync(ignoreFilePath)) {
@@ -90,7 +90,7 @@ function generateProjectStructure(applyFilter = false) {
   // Extract list of patterns for files to ignore
   if (fs.existsSync(ignoreFilePath)) {
     const ignoreFileContent = fs.readFileSync(ignoreFilePath, 'utf-8')
-    ignoreFiles = ignoreFileContent.split('\n').filter(line => line.trim() !== '')
+    ignoreFiles = ignoreFileContent.split('\n').filter(line => line.trim() !== '').map(line => line.trim())
   }
 
   // Merge ignore file patterns with those from .gitignore file if this option is enabled
@@ -98,7 +98,7 @@ function generateProjectStructure(applyFilter = false) {
     const gitIgnorePath = path.join(rootPath, '.gitignore')
     if (fs.existsSync(gitIgnorePath)) {
       const gitIgnoreContent = fs.readFileSync(gitIgnorePath, 'utf-8')
-      const gitIgnorePatterns = gitIgnoreContent.split('\n').filter(line => line.trim() !== '')
+      const gitIgnorePatterns = gitIgnoreContent.split('\n').filter(line => line.trim() !== '').map(line => line.trim())
       ignoreFiles = [...ignoreFiles, ...gitIgnorePatterns]
     }
   }
