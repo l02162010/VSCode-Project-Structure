@@ -3,6 +3,7 @@
 const vscode = require('vscode')
 const fs = require('fs')
 const path = require('path')
+const { matchesPattern } = require('./patternMatcher')
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -187,25 +188,13 @@ function getFileContents(rootPath, ignoreFiles, filterFiles, applyFilter = false
   return output
 }
 
-function matchesPattern(relativePath, listOfPatterns) {
-  for (const pattern of listOfPatterns) {
-    if (pattern.startsWith('*')) {
-      const fileExtension = path.extname(relativePath)
-      if (fileExtension === pattern.slice(1)) {
-        return true
-      }
-    } else if (relativePath.includes(pattern)) {
-      return true
-    }
-  }
-
-  return false
-}
-
 // This method is called when your extension is deactivated
 function deactivate() {}
 
 module.exports = {
   activate,
-  deactivate
+  deactivate,
+  generateProjectStructure,
+  getFolderStructure,
+  getFileContents
 }
