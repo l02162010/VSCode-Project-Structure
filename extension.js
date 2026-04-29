@@ -42,7 +42,7 @@ function generateProjectStructure(applyFilter = false) {
   // Defines the path to the root folder of the workspace, displays an error message if no workspace is open
   const rootPath = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined
   if (!rootPath) {
-    vscode.window.showErrorMessage('Fab! No workspace folder is open')
+    vscode.window.showErrorMessage('No workspace folder is open')
     return
   }
 
@@ -83,7 +83,7 @@ function generateProjectStructure(applyFilter = false) {
     if (!fs.existsSync(ignoreFilePath)) {
       fs.writeFileSync(ignoreFilePath, '')
     }
-    // iset the output path to project_structure.txt
+    // set the output path to project_structure.txt
     outputPath = path.join(outputFolderPath, 'project_structure.txt')
   }
 
