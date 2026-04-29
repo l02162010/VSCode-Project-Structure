@@ -29,7 +29,7 @@ VSCode Project Structure is a Visual Studio Code extension that allows you to ge
   - `Filtered files`: Also generates `project_structure_filtered.txt` containing both the the **Project Structure** for all files (except those matching the **ignore patterns**), and **File Contents** only for those matching the **filter patterns**
 - Wait for the extension to finish generating the file.
 - Use `.project_structure_ignore` to list your **ignore patterns**,
-- Use `.project_structure_filter` to list your **filter patterns**
+- Use `.project_structure_filter` to list your **filter patterns** (matched against workspace-relative paths, e.g. `src/index.js`)
 
 By default:
 
@@ -46,7 +46,7 @@ dist
 *.log
 ```
 
-This `.project_structure_filter` file will cause Project Structure to only provide full content of the package.json file, as well as any in the src folder (excluding those that match the ignore pattern):
+This `.project_structure_filter` file will cause Project Structure to only provide full content of `package.json`, as well as files under `src` (patterns are matched against workspace-relative paths, excluding those that match the ignore pattern):
 
 ```
 src
