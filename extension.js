@@ -177,7 +177,7 @@ function getFileContents(rootPath, ignoreFiles, filterFiles, applyFilter = false
   filePaths.forEach(filePath => {
     // If apply filter is on, ignore files that don't match the filter patterns
     const relativePath = path.relative(rootPath, filePath)
-    if (applyFilter && !matchesPattern(filePath, filterFiles)) {
+    if (applyFilter && !matchesPattern(relativePath, filterFiles)) {
       return
     }
     output += `\n--- File: ${relativePath} ---\n`
