@@ -49,8 +49,14 @@ function generateProjectStructure(applyFilter = false) {
   // Defines the configuration object
   const config = vscode.workspace.getConfiguration('vscodeProjectStructure')
 
+  const configured = config.get('outputFolderPath')
+  // Guard the config type so path.join always receives a string.
+  const hasValidOutputFolder = typeof configured === 'string' && configured.trim() !== ''
+  if (!hasValidOutputFolder) {
+    vscode.window.showWarningMessage('Invalid "outputFolderPath" setting. Falling back to default "docs" folder.')
+  }
   // Defines the path to the output folder, if not defined set it to "docs"
-  const outputFolderName = config.get('outputFolderPath') || 'docs'
+  const outputFolderName = hasValidOutputFolder ? configured : 'docs'
   const outputFolderPath = path.join(rootPath, outputFolderName)
 
   // Creates the output folder if it doesn't exist
