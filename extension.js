@@ -122,16 +122,17 @@ function getFolderStructure(rootPath, ignoreFiles, level) {
   let output = ''
 
   if (fs.existsSync(rootPath)) {
-    const files = fs.readdirSync(rootPath)
-    files.forEach((file, index) => {
-      const fullPath = path.join(rootPath, file)
-      const relativePath = path.relative(rootPath, fullPath)
+    const entries = fs.readdirSync(rootPath)
+    const visibleEntries = entries
+      .map(file => {
+        const fullPath = path.join(rootPath, file)
+        const relativePath = path.relative(rootPath, fullPath)
+        return { file, fullPath, relativePath }
+      })
+      .filter(({ relativePath }) => !matchesPattern(relativePath, ignoreFiles))
 
-      if (matchesPattern(relativePath, ignoreFiles)) {
-        return
-      }
-
-      const isLastFile = index === files.length - 1
+    visibleEntries.forEach(({ file, fullPath }, index) => {
+      const isLastFile = index === visibleEntries.length - 1
       const prefix = level === 0 ? '' : isLastFile ? '└── ' : '├── '
       const indent = ' '.repeat(level * 4) + (level > 0 ? prefix : '')
 
